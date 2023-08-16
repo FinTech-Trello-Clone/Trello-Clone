@@ -10,8 +10,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         user = self.user
         data['data'] = {
             'id': user.id,
-            "phone": user.phone,
-            'role': user.role
+            "phone": user.phone
         }
         return data
     
@@ -35,7 +34,6 @@ class UserRegisterSerialzier(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User(
             phone=validated_data['phone'],
-            # role=validated_data['role'],
         )
         user.set_password(validated_data['password1'])
         user.save()

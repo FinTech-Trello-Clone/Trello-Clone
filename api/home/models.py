@@ -23,4 +23,4 @@ class TaskItem(models.Model):
 class BoardMember(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    member = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    # member = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
