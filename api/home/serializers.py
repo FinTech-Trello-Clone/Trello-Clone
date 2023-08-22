@@ -1,16 +1,17 @@
 from rest_framework import serializers
 from .models import (
     Board,
+    BoardMember,
     TaskCondition,
     TaskItem,
+    SubTask
 )
+from api.utilitie.serializer import CustomAbstractSerializer
 
-
-class BoardCreateSerializer(serializers.ModelSerializer):
-
+class BoardCreateSerializer(CustomAbstractSerializer):
     class Meta:
         model = Board
-        fields = ("id", "title",)
+        fields = ("id", "title", "creator")
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -18,13 +19,12 @@ class BoardCreateSerializer(serializers.ModelSerializer):
         board = Board.objects.create(**validated_data)
         return board
 
-        
-class TaskConditionSerializer(serializers.ModelSerializer):
+
+class TaskConditionSerializer(CustomAbstractSerializer):
 
     class Meta:
         model = TaskCondition
-        fields = ("id", "title", "creator", "created_at", "board",)
-
+        fields = ("id", "title", "creator", "board", "description")
 
 
     def create(self, validated_data):
@@ -39,11 +39,11 @@ class TaskConditionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("You can only link to your own boards !!!")
         
 
-class TaskItemSerializer(serializers.ModelSerializer):
+class TaskItemSerializer(CustomAbstractSerializer):
 
     class Meta:
         model = TaskItem
-        fields = ("id", "title", "created_at", "creator", "task_condition",)
+        fields = ("id", "title", "creator", "task_condition")
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -55,4 +55,29 @@ class TaskItemSerializer(serializers.ModelSerializer):
             return task_item
         else:
             raise serializers.ValidationError("You can only link to your own Tasks !!!")
+
+class SubTaskSerializer(CustomAbstractSerializer):
+    class Meta:
+        model = SubTask
+        fields = ("id", "title", "task_item")
+
+class BoardMemberSerializer(CustomAbstractSerializer):
+    class Meta:
+        model = BoardMember
+        fields = ("id", "board", "member")
+    
+    def create(self, validated_data):
+        user = self.context['request'].user
+        board = validated_data.get("board")
+        member = validated_data['member']
+        board_members = BoardMember.objects.filter(board_id = board.id)
+
+        for board_member  in board_members:
+            if board_member.member == member:
+                raise serializers.ValidationError("User exists")
+        
+        if member != user:
+            board_member = BoardMember.objects.create(**validated_data)
+        else:
+            raise serializers.ValidationError("Error saving user")
         

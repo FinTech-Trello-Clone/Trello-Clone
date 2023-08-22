@@ -5,25 +5,28 @@ from .views import (
     TaskConditionApi,
     TaskConditionsEdit,
     TaskItemApi,
-    TaskItemEdit
+    TaskItemEdit,
+    BoardMemberApi,
+    BoardMemberEditApi,
+    SubTaskApi,
+    SubTaskEditApi
+    
 
 )
 
 urlpatterns = [
-    path('board/create/', BoardApi.as_view()),
-    path('board/edit/<int:pk>/',BoardEditApi.as_view()),
-    path('board/get/<int:pk>/',BoardEditApi.as_view()),
-    path('board/delete/<int:pk>/',BoardEditApi.as_view()),
+    path('board/', BoardApi.as_view()),
+    path('board/details/<int:pk>/',BoardEditApi.as_view()),
 
-    path('task/create/',TaskConditionApi.as_view()),
-    path('task/edit/<int:pk>/',TaskConditionsEdit.as_view()),
-    path('task/get/<int:pk>/',TaskConditionsEdit.as_view()),
-    path('task/delete/<int:pk>/',TaskConditionsEdit.as_view()),
+    path('task/',TaskConditionApi.as_view()),
+    path('task/details/<int:pk>/',TaskConditionsEdit.as_view()),
 
-    path('taskitem/create/',TaskItemApi.as_view()),
-    path('taskitem/edit/<int:pk>/',TaskItemEdit.as_view()),
-    path('taskitem/get/<int:pk>/',TaskItemEdit.as_view()),
-    path('taskitem/delete/<int:pk>/',TaskItemEdit.as_view()),
+    path('task_item/',TaskItemApi.as_view()),
+    path('task_item/details/<int:pk>/',TaskItemEdit.as_view()),
 
+    path("sub_task/", SubTaskApi.as_view()),
+    path("sub_task/details/<int:pk>/", SubTaskEditApi.as_view()),
 
+    path("board_member/", BoardMemberApi.as_view()),
+    path("board_member/details/<int:pk>/", BoardMemberEditApi.as_view())
 ]

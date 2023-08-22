@@ -20,4 +20,4 @@ class TaskItemAdmin(admin.ModelAdmin):
 
 @admin.register(BoardMember)
 class BoardMemberAdmin(admin.ModelAdmin):
-    list_display = ("id", "board", "creator")
+    list_display = ("id", "board")

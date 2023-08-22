@@ -3,7 +3,8 @@ from api.home.models import (
     Board,
     TaskCondition ,
     TaskItem,
-    
+    BoardMember,
+    SubTask
 
 )
 from rest_framework.mixins import (
@@ -12,7 +13,7 @@ from rest_framework.mixins import (
     RetrieveModelMixin,
     DestroyModelMixin,
     UpdateModelMixin,
-    
+
 )
 from rest_framework.generics import (
     GenericAPIView,
@@ -26,8 +27,10 @@ from api.home.serializers import (
     BoardCreateSerializer,
     TaskConditionSerializer,
     TaskItemSerializer,
+    SubTaskSerializer,
+    BoardMemberSerializer
 )
-
+from rest_framework.views import APIView
 # Create your views here.
 class BoardApi(
     ListCreateAPIView):
@@ -36,10 +39,21 @@ class BoardApi(
     queryset = Board.objects.all()
     serializer_class = BoardCreateSerializer
 
+
     def get_queryset(self):
         user = self.request.user
         queryset = Board.objects.filter(creator=user)
         return queryset
+
+class BoardMemberApi(ListCreateAPIView):
+    permission_classes= (IsAuthenticated, )
+    queryset = BoardMember.objects.all()
+    serializer_class = BoardMemberSerializer
+
+class BoardMemberEditApi(RetrieveUpdateAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = BoardMember.objects.all()
+    serializer_class = BoardMemberSerializer
 
 class BoardEditApi(
     RetrieveUpdateDestroyAPIView
@@ -47,7 +61,7 @@ class BoardEditApi(
     permission_classes = (IsAuthenticated, )
     queryset = Board.objects.all()
     serializer_class = BoardCreateSerializer
-
+    
     def get_queryset(self):
         user = self.request.user
         queryset = Board.objects.filter(creator=user)
@@ -65,7 +79,7 @@ class TaskConditionApi(
         user = self.request.user
         queryset = TaskCondition.objects.filter(creator=user)
         return queryset
-    
+
 
 class TaskConditionsEdit(
     RetrieveUpdateDestroyAPIView
@@ -93,7 +107,7 @@ class TaskItemApi(
         user = self.request.user
         queryset = TaskItem.objects.filter(creator=user)
         return queryset
-    
+
 
 
 
@@ -109,6 +123,16 @@ class TaskItemEdit(
         user = self.request.user
         queryset = TaskItem.objects.filter(creator=user)
         return queryset
-    
 
+
+
+class SubTaskApi(ListCreateAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = SubTask.objects.all()
+    serializer_class = SubTaskSerializer
+
+class SubTaskEditApi(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = SubTask.objects.all()
+    serializer_class = SubTaskSerializer
 
