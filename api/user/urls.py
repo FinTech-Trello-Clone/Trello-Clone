@@ -5,7 +5,6 @@ from rest_framework_simplejwt.views import (
 )
 
 from .views import UserRegister, UserEditApi
-
 urlpatterns = [
     path('register/', UserRegister.as_view()),
     path("details/<int:pk>/",UserEditApi.as_view()),

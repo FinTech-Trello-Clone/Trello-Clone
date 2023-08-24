@@ -4,17 +4,16 @@ from api.user.models import User
 
 # Create your models here.
 class Board(CustomAbstractModel):
-    title = models.CharField(max_length=13)
+    title = models.CharField(max_length=255)
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return self.title
 
 class TaskCondition(CustomAbstractModel):
-    title = models.CharField(max_length=13)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="task")
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    title = models.CharField(max_length=13)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self) -> str:
@@ -22,9 +21,8 @@ class TaskCondition(CustomAbstractModel):
     
 class TaskItem(CustomAbstractModel):
     title = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    task_condition = models.ForeignKey(TaskCondition, on_delete=models.CASCADE)
+    task_condition = models.ForeignKey(TaskCondition, on_delete=models.CASCADE, related_name='task_item')
 
     def __str__(self) -> str:
         return self.title
