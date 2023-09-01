@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv("DEBUG") == 'True')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -45,17 +45,21 @@ INSTALLED_APPS = [
 
 INSTALLED_APPS += [
     'rest_framework',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'rest_framework_swagger',
+    "corsheaders"
 ]
 
 INSTALLED_APPS += [
     'api.user',
     'api.home',
+    'api.utilitie',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -191,3 +195,40 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+# Swagger
+SWAGGER_SETTINGS = {
+    "USE_SESSION_AUTH": True,
+    "LOGIN_URL": "/admin/login/",
+    "LOGOUT_URL": "/admin/logout/",
+    "REFETCH_SCHEMA_WITH_AUTH": True,
+    "REFETCH_SCHEMA_ON_LOGOUT": True,
+    "FETCH_SCHEMA_WITH_QUERY": True,
+    "DOC_EXPANSION": "none",
+}
+
+#cors
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
