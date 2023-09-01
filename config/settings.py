@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 INSTALLED_APPS += [
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_swagger',
     'corsheaders',
 ]
 
@@ -195,7 +196,19 @@ SIMPLE_JWT = {
 }
 
 
-# CORS
+# Swagger
+SWAGGER_SETTINGS = {
+    "USE_SESSION_AUTH": True,
+    "LOGIN_URL": "/admin/login/",
+    "LOGOUT_URL": "/admin/logout/",
+    "REFETCH_SCHEMA_WITH_AUTH": True,
+    "REFETCH_SCHEMA_ON_LOGOUT": True,
+    "FETCH_SCHEMA_WITH_QUERY": True,
+    "DOC_EXPANSION": "none",
+}
+
+#cors
+
 CORS_ALLOW_METHODS = (
     "DELETE",
     "GET",

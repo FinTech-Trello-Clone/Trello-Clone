@@ -5,6 +5,6 @@ class CustomAbstractSerializer(serializers.ModelSerializer):
         abstract = True
     def to_representation(self, instance):
         res =  super().to_representation(instance)
-        res['created_at'] = instance.created_at.strftime("%b %d, Y")
-        res['update_at'] = instance.update_at.strftime("%b %d, Y")
+        res['created_at'] = instance.created_at.strftime("%b %d, %Y")
+        res['update_at'] = instance.update_at.strftime("%b %d, %Y")
         return res

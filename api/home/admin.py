@@ -3,7 +3,8 @@ from .models import (
     Board,
     TaskCondition,
     TaskItem,
-    BoardMember
+    BoardMember,
+    SubTask
 )
 
 @admin.register(Board)
@@ -21,3 +22,7 @@ class TaskItemAdmin(admin.ModelAdmin):
 @admin.register(BoardMember)
 class BoardMemberAdmin(admin.ModelAdmin):
     list_display = ("id", "board")
+
+@admin.register(SubTask)
+class SubTaskAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "task_item")
