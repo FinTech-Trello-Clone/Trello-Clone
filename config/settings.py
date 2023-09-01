@@ -47,13 +47,13 @@ INSTALLED_APPS += [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_swagger',
-    "corsheaders"
+    'corsheaders',
 ]
 
 INSTALLED_APPS += [
     'api.user',
     'api.home',
-    'api.utilitie',
+    'api.utilitie', # utils
 ]
 
 MIDDLEWARE = [
@@ -195,6 +195,7 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+
 # Swagger
 SWAGGER_SETTINGS = {
     "USE_SESSION_AUTH": True,
@@ -207,13 +208,6 @@ SWAGGER_SETTINGS = {
 }
 
 #cors
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-]
 
 CORS_ALLOW_METHODS = (
     "DELETE",
@@ -232,3 +226,6 @@ CORS_ALLOW_HEADERS = (
     "x-csrftoken",
     "x-requested-with",
 )
+
+CSRF_TRUSTED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
