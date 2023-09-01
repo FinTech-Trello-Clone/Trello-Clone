@@ -17,6 +17,7 @@ typing-extensions = "==4.7.1"
 tzdata = "==2023.3"
 django-rest-swagger = "*"
 drf-yasg = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

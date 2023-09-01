@@ -28,7 +28,7 @@ class TaskItem(CustomAbstractModel):
         return self.title
 class SubTask(CustomAbstractModel):
     title = models.CharField(max_length=255)
-    task_item = models.ForeignKey(TaskItem, on_delete=models.CASCADE)
+    task_item = models.ForeignKey(TaskItem, on_delete=models.CASCADE, related_name="sub_task")
 
     def __str__(self) -> str:
         return self.title

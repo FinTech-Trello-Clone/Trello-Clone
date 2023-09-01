@@ -8,11 +8,17 @@ from .models import (
 )
 from api.utilitie.serializer import CustomAbstractSerializer
 
+class SubTaskSerializer(CustomAbstractSerializer):
+    class Meta:
+        model = SubTask
+        fields = ("id", "title", "task_item")
+
 class TaskItemSerializer(CustomAbstractSerializer):
+    sub_task = SubTaskSerializer(many = True, read_only = True)
 
     class Meta:
         model = TaskItem
-        fields = ("id", "title", "creator", "task_condition")
+        fields = ("id", "title", "creator", "task_condition", "sub_task")
 
     def to_representation(self, instance):
         res = super().to_representation(instance)
@@ -27,7 +33,7 @@ class TaskItemSerializer(CustomAbstractSerializer):
             "board": instance.task_condition.board.title
         }
         return res
-    
+
     def create(self, validated_data):
         user = self.context['request'].user
         task_condition = validated_data.get('task_condition')
@@ -92,12 +98,6 @@ class BoardCreateSerializer(CustomAbstractSerializer):
         board = Board.objects.create(**validated_data)
         return board
 
-
-
-class SubTaskSerializer(CustomAbstractSerializer):
-    class Meta:
-        model = SubTask
-        fields = ("id", "title", "task_item")
 
 class BoardMemberSerializer(CustomAbstractSerializer):
     class Meta:
