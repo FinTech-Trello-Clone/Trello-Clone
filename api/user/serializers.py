@@ -4,37 +4,24 @@ from rest_framework import serializers
 from .models import User
 from api.home.serializers import BoardCreateSerializer
 from api.home.models import Board, BoardMember
+from django.db.models import Q
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_board(self,user):
-        board = Board.objects.select_related('creator',).filter(creator = user)
-        board_member = BoardMember.objects.select_related('board', 'member').filter(member = user)
-        print(board, board_member, user, "salom")
-        context = {"boards": {}, "member_boards": {}}
-        for i in board:
-            context['boards'].update({
-                "board_id": i.id,
-                "title": i.title
-            })
-        for i in board_member:
-            context['member_boards'].update({
-                "board_id": i.id,
-                "title": i.board.title,
-                "board_creator":{
-                    "first_name": i.board.creator.first_name,
-                    "last_name": i.board.creator.last_name,
-                    "phone": i.board.creator.phone
-                }
-            })
-        return context
+        boards = Board.objects.select_related('creator',).filter(
+            Q(creator=user) | Q(board_member__member=user)
+        )
+        return boards
 
     def validate(self, attrs):
         data = super().validate(attrs)
         user = self.user
-        board = self.get_board(user)
+        boards = self.get_board(user).values("id", 'title')
         data['data'] = {
             'id': user.id,
             "phone": user.phone,
-            "item": board
+            "boards": boards
         }
         return data
 
