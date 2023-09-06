@@ -45,16 +45,10 @@ INSTALLED_APPS = [
 INSTALLED_APPS += [
     'rest_framework',
     'rest_framework_simplejwt',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'rest_framework_simplejwt.token_blacklist',
->>>>>>> 2647520 (update)
     'rest_framework_swagger',
     "corsheaders"
-=======
     'corsheaders',
->>>>>>> caf2948 (Ready deploy)
 ]
 
 INSTALLED_APPS += [
@@ -202,7 +196,6 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
-<<<<<<< HEAD
 # Swagger
 SWAGGER_SETTINGS = {
     "USE_SESSION_AUTH": True,
@@ -215,14 +208,10 @@ SWAGGER_SETTINGS = {
 }
 
 #cors
-print(os.getenv("CORS_ALLOWED_ORIGINS").split(","))
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS").split(",")
 
-=======
-
 # CORS
->>>>>>> caf2948 (Ready deploy)
 CORS_ALLOW_METHODS = (
     "DELETE",
     "GET",
@@ -239,11 +228,4 @@ CORS_ALLOW_HEADERS = (
     "user-agent",
     "x-csrftoken",
     "x-requested-with",
-<<<<<<< HEAD
 )
-=======
-)
-
-CSRF_TRUSTED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
->>>>>>> caf2948 (Ready deploy)
