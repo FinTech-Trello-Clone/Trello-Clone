@@ -33,8 +33,8 @@ class SubTask(CustomAbstractModel):
     def __str__(self) -> str:
         return self.title
 class BoardMember(CustomAbstractModel):
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name='board_member')
     member = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.member.first_name
+        return self.board.title
